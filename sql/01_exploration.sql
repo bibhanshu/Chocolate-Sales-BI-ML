@@ -84,3 +84,79 @@ SELECT
 FROM sales_fact
 GROUP BY month
 ORDER BY month
+
+-- Sales and product join view :
+select * from [dbo].[sales_fact] SF
+left join [dbo].[dim_product] PD on SF.product = PD.product_name
+-- so the above is basically a basement to verify nulls in product table how many products tables null i have i can add a extra where statement coloumn name is null 
+-- the reverse can happnen or right join to see how many products are not in sales table zero sales further can be clasified on date and month ganuality
+
+-- I will continue with Inner join though 
+--premium product sales
+select SF.product,sum(SF.amount) as Primium_product_amount,sum(SF.profit) as Primium_product_profit from [dbo].[sales_fact] SF
+inner join [dbo].[dim_product] PD on SF.product = PD.product_name
+where PD.is_premium = 1
+group by SF.product
+
+
+--Non premium product sales
+select SF.product,sum(SF.amount) as Primium_product_amount,sum(SF.profit) as Primium_product_profit from [dbo].[sales_fact] SF
+inner join [dbo].[dim_product] PD on SF.product = PD.product_name
+where PD.is_premium = 0
+group by SF.product
+
+-- premium vs non premium product details 
+-- Premium vs Non Premium comparison
+SELECT 
+    PD.is_premium,
+    COUNT(DISTINCT SF.product) AS product_count,
+    SUM(SF.amount) AS total_sales,
+    SUM(SF.profit) AS total_profit,
+    ROUND(SUM(SF.profit) * 100.0 / SUM(SF.amount), 2) AS profit_margin_pct
+FROM sales_fact SF
+INNER JOIN dim_product PD ON SF.product = PD.product_name
+GROUP BY PD.is_premium
+
+--Premium vs non premium
+select SF.product,sum(SF.amount) as Primium_product_amount,sum(SF.profit) as Primium_product_profit,PD.is_premium from [dbo].[sales_fact] SF
+inner join [dbo].[dim_product] PD on SF.product = PD.product_name
+where PD.is_premium = 1
+group by SF.product,PD.is_premium
+union
+select SF.product,sum(SF.amount) as Primium_product_amount,sum(SF.profit) as Primium_product_profit,PD.is_premium from [dbo].[sales_fact] SF
+inner join [dbo].[dim_product] PD on SF.product = PD.product_name
+where PD.is_premium = 0
+group by SF.product,PD.is_premium
+
+--++ country + Prod + Sales fact
+select * from [dbo].[sales_fact] SF
+inner join [dbo].[dim_product] PD on SF.product = PD.product_name
+inner join [dbo].[dim_country] CT on CT.country_name = SF.country
+
+--country product,premium,category,tier wise details 
+select SF.product,sum(SF.amount) as Primium_product_amount,sum(SF.profit) as Primium_product_profit,PD.is_premium,CT.country_name,CT.market_tier from [dbo].[sales_fact] SF
+inner join [dbo].[dim_product] PD on SF.product = PD.product_name
+inner join [dbo].[dim_country] CT on CT.country_name = SF.country
+group by SF.product,PD.is_premium,CT.country_name,CT.market_tier
+
+
+--Which country buys most premium products?
+with CTE as (
+select SF.product,sum(SF.amount) as Primium_product_amount,sum(SF.profit) as Primium_product_profit,PD.is_premium,CT.country_name,CT.market_tier from [dbo].[sales_fact] SF
+inner join [dbo].[dim_product] PD on SF.product = PD.product_name
+inner join [dbo].[dim_country] CT on CT.country_name = SF.country
+group by SF.product,PD.is_premium,CT.country_name,CT.market_tier
+)
+--select country_name,count(is_premium) as count_premium_products from CTE
+--where is_premium = 1
+--group by country_name
+select country_name, sum(Primium_product_amount) as premium_sales
+from CTE
+where is_premium = 1
+group by country_name
+order by premium_sales desc
+
+--Which product-country combo has highest profit?
+
+
+--Tier 1 vs Tier 2 market performance?
