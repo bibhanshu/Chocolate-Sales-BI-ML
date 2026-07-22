@@ -1,4 +1,4 @@
---view
+﻿--view
 SELECT COUNT(*) FROM sales_fact;
 SELECT COUNT(*) FROM dim_salesperson;
 SELECT COUNT(*) FROM dim_product;
@@ -157,6 +157,59 @@ group by country_name
 order by premium_sales desc
 
 --Which product-country combo has highest profit?
+select top 1 SF.product,CT.country_name,sum(SF.profit) as product_profit from [dbo].[sales_fact] SF
+inner join [dbo].[dim_product] PD on SF.product = PD.product_name
+inner join [dbo].[dim_country] CT on CT.country_name = SF.country
+group by SF.product,CT.country_name
+order by product_profit desc
 
 
 --Tier 1 vs Tier 2 market performance?
+select CT.market_tier,sum(SF.amount) as product_amount,sum(SF.profit) as product_profit from [dbo].[sales_fact] SF
+inner join [dbo].[dim_product] PD on SF.product = PD.product_name
+inner join [dbo].[dim_country] CT on CT.country_name = SF.country
+group by CT.market_tier
+
+--Target vs Actual
+--Target → sales_target 
+--Actual → amount from sales_fact 
+
+WITH cte AS (
+    SELECT SF.salesperson_name, SF.month, SF.country,
+           SUM(MT.sales_target) AS Monthly_Target_Given,
+           SUM(SF.amount) AS Monthly_Target_Achived 
+    FROM [dbo].[sales_fact] SF
+    INNER JOIN monthly_targets MT 
+        ON SF.salesperson_name = MT.salesperson_name
+        AND SF.month = MT.month
+        AND SF.country = MT.country
+        AND SF.year = MT.year
+    GROUP BY SF.salesperson_name, SF.month, SF.country
+),
+CTE_2 AS (
+    SELECT *,
+           CASE WHEN Monthly_Target_Achived >= Monthly_Target_Given 
+                THEN 'target achived'
+                ELSE 'not achived'
+           END AS Sucess_Rate
+    FROM CTE
+),
+CTE_3 AS (
+    SELECT *,
+           CASE WHEN Sucess_Rate = 'target achived' THEN 1
+                ELSE 0
+           END AS Result
+    FROM CTE_2
+),
+CTE_4 AS (
+    SELECT salesperson_name,
+           COUNT(CASE WHEN Result = 1 THEN 1 END) AS Achived_count,
+           COUNT(CASE WHEN Result = 0 THEN 1 END) AS unachived_count
+    FROM CTE_3
+    GROUP BY salesperson_name
+)
+SELECT *,
+    Achived_count + unachived_count AS total,
+    ROUND(Achived_count * 100.0 / (Achived_count + unachived_count), 1) AS achievement_rate_pct
+FROM CTE_4
+ORDER BY achievement_rate_pct DESC
