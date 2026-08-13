@@ -14,19 +14,19 @@
 ## 🖥️ Dashboard Preview
 
 ### 🏠 Welcome Page
-![Welcome Page](Git_Pics/welcome_page.png)
+![Welcome Page](Git_Pics/welcome_page.png.png)
 
 ### 📊 Sales Overview
-![Sales Overview](screenshots/sales_overview.png)
+![Sales Overview](Git_Pics/sales_overview.png.png)
 
 ### 👤 Salesperson Performance
-![Salesperson Page](screenshots/salesperson_page.png)
+![Salesperson Page](Git_Pics/salesperson_page.png.png)
 
 ### 🍫 Product Analysis
-![Product Page](screenshots/product_page.png)
+![Product Page](Git_Pics/product_page.png.png)
 
 ### 🌍 Country Analysis
-![Country Page](screenshots/country_page.png)
+![Country Page](Git_Pics/country_page.png.png)
 
 ---
 
