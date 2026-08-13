@@ -239,7 +239,7 @@ python ML_Chocolate_Working.py   # working reference model
 ## 👤 Author
 
 **Bibhanshu Swain**
-Technical Recruiter & HR Data Analyst · Shell Recharge
+Sr Analyst · Shell 
 SQL · Power BI · DAX · Python · Machine Learning
 
 🔗 [GitHub](https://github.com/bibhanshu) · [LinkedIn](https://www.linkedin.com/in/bivansu-swain-401634166/)
