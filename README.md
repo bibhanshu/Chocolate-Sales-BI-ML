@@ -14,7 +14,7 @@
 ## 🖥️ Dashboard Preview
 
 ### 🏠 Welcome Page
-![Welcome Page](screenshots/welcome_page.png)
+![Welcome Page](Git_Pics/welcome_page.png)
 
 ### 📊 Sales Overview
 ![Sales Overview](screenshots/sales_overview.png)
