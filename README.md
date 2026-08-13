@@ -14,19 +14,19 @@
 ## 🖥️ Dashboard Preview
 
 ### 🏠 Welcome Page
-![Welcome Page](screenshots/welcome_page.png)
+![Welcome Page](Git_Pics/welcome_page.png.png)
 
 ### 📊 Sales Overview
-![Sales Overview](screenshots/sales_overview.png)
+![Sales Overview](Git_Pics/sales_overview.png.png)
 
 ### 👤 Salesperson Performance
-![Salesperson Page](screenshots/salesperson_page.png)
+![Salesperson Page](Git_Pics/salesperson_page.png.png)
 
 ### 🍫 Product Analysis
-![Product Page](screenshots/product_page.png)
+![Product Page](Git_Pics/product_page.png.png)
 
 ### 🌍 Country Analysis
-![Country Page](screenshots/country_page.png)
+![Country Page](Git_Pics/country_page.png.png)
 
 ---
 
@@ -239,7 +239,9 @@ python ML_Chocolate_Working.py   # working reference model
 ## 👤 Author
 
 **Bibhanshu Swain**
-Technical Recruiter & HR Data Analyst · Shell Recharge
+
+Sr Analyst · Shell 
+
 SQL · Power BI · DAX · Python · Machine Learning
 
 🔗 [GitHub](https://github.com/bibhanshu) · [LinkedIn](https://www.linkedin.com/in/bivansu-swain-401634166/)
